@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DataSourceManagerImpl" format="xml" hash="968922726">
+    <data-source source="LOCAL" name="SQL Server - btms@localhost" uuid="847e86fa-5c73-47a7-98df-747745eae2b5">
+      <driver-ref>sqlserver.jtds</driver-ref>
+      <jdbc-driver>net.sourceforge.jtds.jdbc.Driver</jdbc-driver>
+      <jdbc-url>jdbc:jtds:sqlserver://localhost:1433/btms</jdbc-url>
+      <libraries>
+        <library>
+          <url>file://$MAVEN_REPOSITORY$/net/sourceforge/jtds/jtds/1.3.1/jtds-1.3.1.jar</url>
+        </library>
+      </libraries>
+    </data-source>
+  </component>
+</project>

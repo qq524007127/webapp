@@ -1,0 +1,178 @@
+* {
+	font-family: 微软雅黑;
+	font-size: 12px;
+}
+
+body {
+	margin: 0;
+	padding: 0;
+}
+
+iframe {
+	margin:0;
+	padding:0;
+	border:none;
+}
+
+a {
+	border: none;
+	text-decoration: none;
+}
+
+a:hover {
+	color: red;
+	border: none;
+}
+
+form {
+	padding: 0;
+	margin: 0;
+}
+
+textarea {
+	resize: none;
+}
+
+img {
+	margin: 0;
+	padding: 0;
+	border: none;
+}
+
+hr {
+	height: 1px;
+	background-color: azure;
+	border: none;
+	margin: 8px 5px;
+}
+
+ul {
+	margin: 0;
+	padding: 0;
+	list-style: none;
+	display: block;
+}
+
+ul li {
+	margin: 0;
+	padding: 0;
+	display: inline-block;
+}
+
+.main-header {
+	background-color: #9F2925; 
+	margin: 0;
+	padding: 0;
+	height: 100px;
+	line-height: 100px;
+	color : #BF9F62;
+}
+
+.main-header-content {
+	width: 100%;
+	height: 100px;
+	line-height: 96px;
+}
+
+.main-header-logo {
+	background: url('../img/logo.png') no-repeat center center;
+	width: 64px;
+	height: 100px;
+	margin: auto 10px;
+	display: block;
+}
+
+.main-header-title {
+	font-size: 20px;
+	padding: 0 5px;
+	font-weight: bold;
+}
+
+.main-header-time {
+	font-size: 14px;
+	font-weight: bold;
+	padding-right: 20px;
+}
+
+.main-footer {
+	/* background-color: #008866; */
+	background-color: #9F2925; 
+	color: #BF9F62;
+	margin: 0;
+	padding: 0;
+	height: 40px;
+	line-height: 40px;
+	text-align: center;
+}
+
+.main-header-timer,.main-header-timer span {
+	font-size: 14px;
+	font-weight: bold;
+}
+
+.icon-container {
+	width: 22px;
+	height: 22px;
+	margin: 0;
+	padding: 0;
+}
+
+.toolbar-searchbox-container {
+	padding: 0;
+	margin: 0;
+	margin-left: 50px;
+}
+
+.form-container {
+	margin: 0;
+	text-align: center;
+	padding: 0;
+	width: 100%;
+	height: 100%;
+	background-color: azure;
+	border-spacing: 1px;
+	border-collapse: separate;
+}
+
+.form-container tr {
+	/* background-color: #008866; */
+	background-color: #9F2925; 
+	color: #CCEEFF;
+}
+
+.form-container tr td {
+	text-align: left;
+	padding: 5px 0;
+	padding-left: 5px;
+	height: 45px;
+	line-height: 45px;
+}
+
+.form-container tr .title {
+	text-align: right;
+	font-family: 微软雅黑;
+	border: none;
+	padding-right: 5px;
+}
+
+.left {
+	float: left;
+}
+
+.right {
+	float: right;
+}
+
+.clear {
+	clear: both;
+}
+
+/***打印样式***/
+@media print {
+	.noPrint {
+		display: none;
+	}
+	.pageNext {
+		page-break-after: always;
+	}
+}

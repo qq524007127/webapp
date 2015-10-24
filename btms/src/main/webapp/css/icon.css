@@ -1,0 +1,13 @@
+.icon-exit{
+	background:url('../img/exit.png') no-repeat center center;
+}
+.icon-menu{
+	background:url('../img/menu-root.png') no-repeat center center;
+}
+.icon-menu-item{
+	background:url('../img/menu-item.png') no-repeat center center;
+}
+
+.icon-loarge-exit{
+	background:url('../img/large-exit.png') no-repeat center center;
+}

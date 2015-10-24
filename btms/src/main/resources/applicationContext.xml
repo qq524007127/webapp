@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.1.xsd">
+
+    <context:component-scan base-package="com.sunjee.btms.* com.sunjee.component.*" />
+
+
+    <bean class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+        <property name="location" value="classpath:jdbc.properties"/>
+    </bean>
+
+    <!-- 连接sql server数据库 -->
+    <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource">
+        <property name="driverClassName" value="${jdbc.driverClassName}" />
+        <property name="url" value="${jdbc.url}" />
+        <property name="username" value="${jdbc.userName}" />
+        <property name="password" value="${jdbc.password}" />
+        <property name="maxActive" value="150" />
+        <property name="minIdle" value="5" />
+        <property name="initialSize" value="30" />
+        <property name="logAbandoned" value="true" />
+        <property name="removeAbandoned" value="true" />
+        <property name="removeAbandonedTimeout" value="10" />
+        <property name="maxWait" value="1000" />
+        <property name="timeBetweenEvictionRunsMillis" value="10000" />
+        <property name="minEvictableIdleTimeMillis" value="10000" />
+    </bean>
+
+    <!-- SessionFactory配置 -->
+    <bean id="sessionFactory"
+          class="org.springframework.orm.hibernate4.LocalSessionFactoryBean">
+        <property name="dataSource">
+            <ref bean="dataSource" />
+        </property>
+        <property name="packagesToScan"
+                  value="com.sunjee.component.bean,com.sunjee.btms.bean" />
+        <property name="hibernateProperties">
+            <props>
+                <!-- 连接SqlServer数据库 -->
+                <prop key="hibernate.dialect">
+                    ${hibernate.dialect}
+                </prop>
+
+                <prop key="hibernate.show_sql">${hibernate.show_sql}</prop>
+                <prop key="hibernate.format_sql">${hibernate.format_sql}</prop>
+                <prop key="hibernate.hbm2ddl.auto">${hibernate.hbm2ddl.auto}</prop>
+
+            </props>
+        </property>
+    </bean>
+    <bean id="transactionManager"
+          class="org.springframework.orm.hibernate4.HibernateTransactionManager">
+        <property name="sessionFactory" ref="sessionFactory" />
+    </bean>
+
+    <!-- 事务管理，hibernate4中如果不配置事务管理则SessionFactory.getCurrentSession()无法获取session -->
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">
+        <tx:attributes>
+            <tx:method name="*Always" propagation="REQUIRES_NEW"/>
+            <tx:method name="add*" propagation="REQUIRED" />
+            <tx:method name="update*" propagation="REQUIRED" />
+            <tx:method name="delete*" propagation="REQUIRED" />
+            <tx:method name="init*" propagation="REQUIRED" />
+            <tx:method name="reset*" propagation="REQUIRED" />
+            <tx:method name="execut*" propagation="REQUIRED"/>
+            <tx:method name="get*" read-only="false" />
+        </tx:attributes>
+    </tx:advice>
+    <aop:config>
+
+        <aop:pointcut expression="execution(* com.sunjee.btms.service.*.*(..))" id="btmsServicePointcut" />
+
+        <aop:advisor advice-ref="transactionAdvice" pointcut-ref="btmsServicePointcut" />
+
+    </aop:config>
+
+</beans>

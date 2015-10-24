@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE struts PUBLIC
+        "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+        "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+    <constant name="struts.devMode" value="true"/>
+    <constant name="struts.objectFactory" value="spring"/>
+
+    <include file="struts-json.xml"/>
+
+    <package name="btms-base" namespace="/admin" extends="struts-default">
+
+        <interceptors>
+            <interceptor name="adminCheckLogin" class="userLoginInterceptor"></interceptor>
+            <interceptor-stack name="adminInterceptor">
+                <interceptor-ref name="adminCheckLogin"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+
+        <default-interceptor-ref name="adminInterceptor"/>
+
+        <global-results>
+            <result name="login">/WEB-INF/view/login.jsp</result>
+            <result name="error">/WEB-INF/view/common_error.jsp</result>
+        </global-results>
+
+        <global-exception-mappings>
+            <exception-mapping result="error" exception="Exception"></exception-mapping>
+        </global-exception-mappings>
+
+        <action name="login">
+            <result>/WEB-INF/view/login.jsp</result>
+        </action>
+
+        <action name="userLogin" class="loginAction" method="login">
+            <result type="redirectAction">index</result>
+            <result name="login">/WEB-INF/view/login.jsp</result>
+        </action>
+
+        <action name="userLoginOut" class="loginAction" method="loginOut">
+            <result type="redirectAction">login</result>
+        </action>
+
+        <action name="index" class="indexAction">
+            <result>/WEB-INF/view/index.jsp</result>
+            <result type="redirectAction" name="login">login</result>
+        </action>
+
+        <action name="*_*" class="{1}Action" method="{2}">
+            <result>/WEB-INF/view/admin/{1}.jsp</result>
+        </action>
+
+        <action name="*" class="{1}Action">
+            <result>/WEB-INF/view/admin/{1}.jsp</result>
+        </action>
+
+    </package>
+
+    <package name="download" namespace="/download" extends="struts-default">
+        <!-- 普通缴费清单 -->
+        <action name="payInfo" class="payRecordInfoAction">
+            <result name="success" type="stream">
+                <param name="contentType">text/plain</param>
+                <param name="contentDisposition">attachment;fileName="${fileName}"</param>
+                <param name="inputName">payRecordInfoFile</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <!-- 预售缴费清单 -->
+        <action name="preSellInfo" class="presellAction">
+            <result name="success" type="stream">
+                <param name="contentType">text/plain</param>
+                <param name="contentDisposition">attachment;fileName="${fileName}"</param>
+                <param name="inputName">preSellFile</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <!-- 预售补单缴费清单 -->
+        <action name="preSellCashInfo" class="presellAction">
+            <result name="success" type="stream">
+                <param name="contentType">text/plain</param>
+                <param name="contentDisposition">attachment;fileName="${fileName}"</param>
+                <param name="inputName">preSellCashFile</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <!-- 预售汇总表 -->
+        <action name="preSellSummary" class="preSellSummaryAction">
+            <result name="success" type="stream">
+                <param name="contentType">text/plain</param>
+                <param name="contentDisposition">attachment;fileName="${fileName}"</param>
+                <param name="inputName">preSellSummaryFile</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+
+        <!-- 数据汇总表 -->
+        <action name="summary_*" class="dataSummaryAction">
+            <result name="success" type="stream">
+                <param name="contentType">text/plain</param>
+                <param name="contentDisposition">attachment;fileName="${fileName}"</param>
+                <param name="inputName">{1}</param>
+                <param name="bufferSize">1024</param>
+            </result>
+        </action>
+    </package>
+</struts>
