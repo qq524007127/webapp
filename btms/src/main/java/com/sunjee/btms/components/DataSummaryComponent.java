@@ -52,10 +52,10 @@ public class DataSummaryComponent extends BaseBean {
 		try {
 			System.out.println("正在汇总数据...");
 			/*dataSummaryService.addSummaryOnBefore();
-			preSellSummaryService.initSumOfBefore();*/
-			salesSummaryService.initSummaryOnBefore(new Date());
+			preSellSummaryService.initSumOfBefore();
+			salesSummaryService.initSummaryOnBefore(new Date());*/
 			System.out.println("数据汇总完成...");
-			/*new Thread(new Runnable(){
+			new Thread(new Runnable(){
 				@Override
 				public void run() {
 					System.out.println("正在汇总数据...");
@@ -64,7 +64,7 @@ public class DataSummaryComponent extends BaseBean {
 					salesSummaryService.initSummaryOnBefore(new Date());
 					System.out.println("数据汇总完成...");
 				}
-			}).start();*/
+			}).start();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

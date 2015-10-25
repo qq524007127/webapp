@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.sunjee.btms.exception.AppRuntimeException;
 import org.springframework.stereotype.Repository;
 
 import com.sunjee.btms.bean.PayRecord;
@@ -68,12 +69,13 @@ public class PayRecorDaoImpl extends SupportDaoImpl<PayRecord> implements
 			hql.append(" and payDate <= :end");
 		}
 		if(saler != null){
-			param.put("mem_saler", saler);
+            throw new AppRuntimeException("PayRecordDaoImpl.getAllByDateAndSaler()方法中的Saler只能为空");
+			/*param.put("mem_saler", saler);
 			param.put("enter_saler", saler);
 			hql.append(" and (");
 			hql.append(" mem.saler = :mem_saler ");
 			hql.append(" or enterprise.saler = :enter_saler");
-			hql.append(")");
+			hql.append(")");*/
 		}
 		else {
 			hql.append(" and mem.saler is null ").append(" and enterprise.saler is null");

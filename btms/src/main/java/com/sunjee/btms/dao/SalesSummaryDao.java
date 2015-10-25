@@ -17,11 +17,11 @@ public interface SalesSummaryDao extends SupportDao<SalesSummary> {
 	 * @param pager
 	 * @param start
 	 * @param end
-	 * @param saler
 	 * @param whereParams
 	 * @param sortParams
 	 * @return
 	 */
+    @Deprecated
 	List<SalesSummary> getAllByDate(Pager pager, Date start, Date end,
                                     Map<String, Object> whereParams, Map<String, SortType> sortParams);
 }
