@@ -108,6 +108,9 @@
         $('#summaryGrid').datagrid({
             url: 'api/salesSummary_grid.action',
             columns: [[{
+                title:'',
+                colspan:2
+            },{
                 title: "福位统计",
                 colspan: 4
             }, {
@@ -122,7 +125,27 @@
             }, {
                 title: "其它费用统计",
                 colspan: 2
+            },{
+                title:'',
+                colspan:1
             }], [{
+                field: 'createDate',
+                title: '统计日期',
+                width: 10,
+                sortable: true,
+                align: 'center'
+            }, {
+                field: 'saler',
+                title: "经办人",
+                align: 'center',
+                width: 10,
+                formatter:function(value){
+                    if(value){
+                        return value.salerName;
+                    }
+                    return '/';
+                }
+            },{
                 field: 'bsBuyCount',
                 title: '捐赠数量',
                 align: 'center',
@@ -194,6 +217,12 @@
                 align: 'center',
                 sortable: true,
                 width: 10
+            },{
+                field:'total',
+                title:'小计',
+                width:10,
+                align:'center',
+                sortable:true
             }]],
             toolbar: '#toolbarPanel',
             fit: true,
@@ -202,22 +231,6 @@
             fitColumns: true,
             rownumbers: true,
             pagination: true,
-            frozenColumns: [[{
-                title: '',
-                colspan: 2
-            }], [{
-                field: 'createDate',
-                title: '统计日期',
-                width: 12,
-                sortable: true,
-                align: 'center'
-            }, {
-                field: 'total',
-                title: "小计",
-                align: 'center',
-                sortable: true,
-                width: 10
-            }]],
             striped: true
         });
     }
