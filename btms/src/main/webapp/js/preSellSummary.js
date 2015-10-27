@@ -54,16 +54,19 @@
 				title : "预售定金(P)",
 				align : 'center',
 				sortable : true,
-				width : 10,
-				formatter:function(value){
-					return '<span style="color:red;">'+value+'</span>';
-				}
+				width : 10
 			},{ 
 				field : 'realCharge', 
 				title : "实收金额(R=S-P)", 
 				sortable : true,
 				align:'center',
-				width:10 
+				width:10,
+				formatter:function(value){
+					if(value < 0){
+						return '<span style="color:red;font-weight: bolder">'+value+'</span>';
+					}
+					return '<span style="color:green;;font-weight: bolder">'+value+'</span>';
+				}
 			}, {
 				field : 'total',
 				title : "小计(PR+R)",
