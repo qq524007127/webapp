@@ -95,7 +95,7 @@ public class SalesSummary extends BaseBean {
         this.createDate = createDate;
     }
 
-    @Column(nullable = false, name = "bs_lease_count")
+    @Column(name = "bs_lease_count")
     public int getBsLeaseCount() {
         return bsLeaseCount;
     }
@@ -104,7 +104,7 @@ public class SalesSummary extends BaseBean {
         this.bsLeaseCount = bsLeaseCount;
     }
 
-    @Column(nullable = false, name = "bs_lease_totalprice")
+    @Column(name = "bs_lease_totalprice")
     public float getBsLeaseTotalPrice() {
         return bsLeaseTotalPrice;
     }
@@ -113,7 +113,7 @@ public class SalesSummary extends BaseBean {
         this.bsLeaseTotalPrice = bsLeaseTotalPrice;
     }
 
-    @Column(nullable = false, name = "bs_buy_count")
+    @Column(name = "bs_buy_count")
     public int getBsBuyCount() {
         return bsBuyCount;
     }
@@ -122,7 +122,7 @@ public class SalesSummary extends BaseBean {
         this.bsBuyCount = bsBuyCount;
     }
 
-    @Column(nullable = false, name = "bs_buy_totalprice")
+    @Column(name = "bs_buy_totalprice")
     public float getBsBuyTotalPrice() {
         return bsBuyTotalPrice;
     }
@@ -132,7 +132,7 @@ public class SalesSummary extends BaseBean {
     }
 
 
-    @Column(nullable = false, name = "blt_buy_count")
+    @Column(name = "blt_buy_count")
     public int getTblBuyCount() {
         return tblBuyCount;
     }
@@ -141,7 +141,7 @@ public class SalesSummary extends BaseBean {
         this.tblBuyCount = tblBuyCount;
     }
 
-    @Column(nullable = false, name = "blt_totalpirce")
+    @Column(name = "blt_totalpirce")
     public float getTblTotalPrice() {
         return tblTotalPrice;
     }
@@ -151,7 +151,7 @@ public class SalesSummary extends BaseBean {
     }
 
 
-    @Column(nullable = false, name = "member_count")
+    @Column(name = "member_count")
     public int getMemberCount() {
         return memberCount;
     }
@@ -160,7 +160,7 @@ public class SalesSummary extends BaseBean {
         this.memberCount = memberCount;
     }
 
-    @Column(nullable = false, name = "mem_totalprice")
+    @Column(name = "mem_totalprice")
     public float getMemberTotalPrice() {
         return memberTotalPrice;
     }
@@ -169,7 +169,7 @@ public class SalesSummary extends BaseBean {
         this.memberTotalPrice = memberTotalPrice;
     }
 
-    @Column(nullable = false, name = "mng_rec_count")
+    @Column(name = "mng_rec_count")
     public int getMngRecCount() {
         return mngRecCount;
     }
@@ -178,7 +178,7 @@ public class SalesSummary extends BaseBean {
         this.mngRecCount = mngRecCount;
     }
 
-    @Column(nullable = false, name = "mng_totalprice")
+    @Column(name = "mng_totalprice")
     public float getMngTotalPrice() {
         return mngTotalPrice;
     }
@@ -187,7 +187,7 @@ public class SalesSummary extends BaseBean {
         this.mngTotalPrice = mngTotalPrice;
     }
 
-    @Column(nullable = false, name = "item_count")
+    @Column(name = "item_count")
     public int getItemCount() {
         return itemCount;
     }
@@ -196,7 +196,7 @@ public class SalesSummary extends BaseBean {
         this.itemCount = itemCount;
     }
 
-    @Column(nullable = false, name = "item_totalprice")
+    @Column(name = "item_total_price")
     public float getItemTotalPrice() {
         return itemTotalPrice;
     }
@@ -226,5 +226,4 @@ public class SalesSummary extends BaseBean {
     public void setSaler(Saler saler) {
         this.saler = saler;
     }
-
 }
