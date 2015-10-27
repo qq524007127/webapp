@@ -4,16 +4,10 @@ import java.util.*;
 
 import javax.annotation.Resource;
 
+import com.sunjee.btms.bean.*;
 import org.apache.commons.lang.time.DateUtils;
 import org.springframework.stereotype.Service;
 
-import com.sunjee.btms.bean.BSRecord;
-import com.sunjee.btms.bean.DataSummary;
-import com.sunjee.btms.bean.PayDetail;
-import com.sunjee.btms.bean.PayRecord;
-import com.sunjee.btms.bean.Saler;
-import com.sunjee.btms.bean.SalesSummary;
-import com.sunjee.btms.bean.TabletRecord;
 import com.sunjee.btms.common.Constant;
 import com.sunjee.btms.common.DataGrid;
 import com.sunjee.btms.common.DonationType;
@@ -61,6 +55,7 @@ public class SalesSummaryServiceImpl implements SalesSummaryService {
     @Override
     public List<SalesSummary> getAllByParams(Pager page,
                                              Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+        initSummaryByDate(new Date(), true);
         return this.salesSummaryDao.getEntitys(page, whereParams, sortParams);
     }
 
@@ -93,11 +88,11 @@ public class SalesSummaryServiceImpl implements SalesSummaryService {
         }
         Date startDate = DateUtil.getStartTimeOfDay(date);
         Date endDate = DateUtil.getEndTimeOfDay(date);
-        Map<String,Object> whereParams = new HashMap<>();
-        whereParams.put("createDate",new HqlNoEquals(startDate,endDate));
-        List<SalesSummary> sums = this.salesSummaryDao.getEntitys(null,whereParams,null);
+        Map<String, Object> whereParams = new HashMap<>();
+        whereParams.put("createDate", new HqlNoEquals(startDate, endDate));
+        List<SalesSummary> sums = this.salesSummaryDao.getEntitys(null, whereParams, null);
         /*
-		 * 如果已经有记录
+         * 如果已经有记录
 		 */
         if (sums.size() > 0) {
             if (!isCover) {
@@ -145,66 +140,75 @@ public class SalesSummaryServiceImpl implements SalesSummaryService {
         /**
          * 如果saler为null则查询没有经办人的收费记录
          */
-        if(saler == null){
+        if (saler == null) {
             /**
              * 根据经办人查询会员的捐赠记录
              */
             whereParams.clear();
-            whereParams.put("payDate",new HqlNoEquals(startDate,endDate));
-            whereParams.put("mem.saler",HqlNullType.isNull);
-            List<PayRecord> memPayRecs = this.payRecordService.getAllByParams(null,whereParams,null);
+            whereParams.put("payDate", new HqlNoEquals(startDate, endDate));
+            whereParams.put("mem.saler", HqlNullType.isNull);
+            whereParams.put("type",PayRecord.COMMON_TYPE);
+            List<PayRecord> memPayRecs = this.payRecordService.getAllByParams(null, whereParams, null);
 
             /**
              * 根据经办人查询企业的捐赠记录
              */
             whereParams.clear();
-            whereParams.put("payDate",new HqlNoEquals(startDate,endDate));
-            whereParams.put("enterprise.saler",HqlNullType.isNull);
-            List<PayRecord> enterPayRecs = this.payRecordService.getAllByParams(null,whereParams,null);
+            whereParams.put("payDate", new HqlNoEquals(startDate, endDate));
+            whereParams.put("enterprise.saler", HqlNullType.isNull);
+            whereParams.put("type",PayRecord.COMMON_TYPE);
+            List<PayRecord> enterPayRecs = this.payRecordService.getAllByParams(null, whereParams, null);
 
             allPayRecs.addAll(memPayRecs);
             allPayRecs.addAll(enterPayRecs);
+        } else if (saler != null) {
+            /**
+             * 根据经办人查询会员的捐赠记录
+             */
+            whereParams.clear();
+            whereParams.put("payDate", new HqlNoEquals(startDate, endDate));
+            whereParams.put("mem.saler", saler);
+            whereParams.put("type",PayRecord.COMMON_TYPE);
+            List<PayRecord> memPayRecs = this.payRecordService.getAllByParams(null, whereParams, null);
 
-            if (allPayRecs.size() < 1) {
-                return null;
-            }
+            /**
+             * 根据经办人查询企业的捐赠记录
+             */
+            whereParams.clear();
+            whereParams.put("payDate", new HqlNoEquals(startDate, endDate));
+            whereParams.put("enterprise.saler", saler);
+            whereParams.put("type",PayRecord.COMMON_TYPE);
+            List<PayRecord> enterPayRecs = this.payRecordService.getAllByParams(null, whereParams, null);
+
+            allPayRecs.addAll(memPayRecs);
+            allPayRecs.addAll(enterPayRecs);
         }
-        else if(saler != null){
-            /**
-             * 根据经办人查询会员的捐赠记录
-             */
-            whereParams.clear();
-            whereParams.put("payDate",new HqlNoEquals(startDate,endDate));
-            whereParams.put("mem.saler",saler);
-            List<PayRecord> memPayRecs = this.payRecordService.getAllByParams(null,whereParams,null);
 
-            /**
-             * 根据经办人查询企业的捐赠记录
-             */
-            whereParams.clear();
-            whereParams.put("payDate",new HqlNoEquals(startDate,endDate));
-            whereParams.put("enterprise.saler",saler);
-            List<PayRecord> enterPayRecs = this.payRecordService.getAllByParams(null,whereParams,null);
-
-            allPayRecs.addAll(memPayRecs);
-            allPayRecs.addAll(enterPayRecs);
-
-            if (allPayRecs.size() < 1) {
-                return null;
-            }
+        if (allPayRecs == null || allPayRecs.size() < 1) {
+            return null;
         }
 
         SalesSummary ds = new SalesSummary();
         ds.setCreateDate(date);
         ds.setSaler(saler);
         for (PayRecord pr : allPayRecs) {
-            initBlessSeatData(ds, pr.getBsRecordSet());
-            initTabletData(ds, pr.getTlRecordSet());
-            initDetailData(ds, pr.getPayDatailSet());
+            initCommonTypeSummary(ds, pr);
         }
-
         return ds;
     }
+
+    /**
+     * 按普通捐赠模式统计
+     *
+     * @param ds
+     * @param payRec
+     */
+    private void initCommonTypeSummary(SalesSummary ds, PayRecord payRec) {
+        initBlessSeatData(ds, payRec.getBsRecordSet());
+        initTabletData(ds, payRec.getTlRecordSet());
+        initDetailData(ds, payRec.getPayDatailSet());
+    }
+
 
     /**
      * 初始化其它收费项目（包括：管理费，会员费，租赁费）
