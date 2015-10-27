@@ -24,9 +24,6 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 	<script type="text/javascript">
 		app.init('${pageContext.request.contextPath}');
 	</script>
-	<!--
-	<link rel="stylesheet" type="text/css" href="styles.css">
-	-->
 	<style type="text/css">
 		* {
 			font-family: "微软雅黑";
@@ -126,6 +123,45 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 				}
 			});
 		}
+
+		function editBSCode(){
+			var checkeds = $('.box-content input[type=checkbox]:checked');
+			if(checkeds.length != 1){
+				$.messager.alert('','请选择一个需要编辑的福位');
+				return;
+			}
+			var bs = {};
+			bs.bsId= $(checkeds[0]).val();
+			bs.bsCode = $('#'+bs.bsId).html();
+			$('#editCodeDialog').dialog({
+				title:'编辑福位编号',
+				iconCls: 'icon-edit',
+				width: 300,
+				height: 160,
+				modal: true,
+				buttons: [{
+					text: '提交',
+					iconCls: 'icon-ok',
+					handler: function () {
+						$('#editCodeForm').form('submit',{
+							success: function (data) {
+								data = $.parseJSON(data);
+								$.messager.show({
+									title: '提示',
+									msg: data.msg
+								});
+								if (data.success) {
+									$('#' + bs.bsId).html($('#editCodeForm input[name=bsCode]').val());
+									$('#editCodeDialog').dialog('close');
+								}
+							}
+						});
+					}
+				}]
+			});
+			$('#editCodeForm').form('clear');
+			$('#editCodeForm').form('load', bs);
+		}
 	</script>
   </head>
   
@@ -148,7 +184,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 			    				</s:else>
 			    					<div class="box-content">
 			    						<p><input type="checkbox" name="bsIds" value="${bs.bsId }"></p>
-			    						<p class="target-info">编号：${bs.bsCode }</p>
+			    						<p class="target-info">编号：<span id="${bs.bsId}">${bs.bsCode }</span></p>
 			    					</div>
 			    				</div>
 			    			</s:if>
@@ -166,9 +202,28 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
   		<a class="easyui-linkbutton" iconCls="icon-add" onClick="addBlessSeat()">添加福位</a>
   		<a class="easyui-linkbutton" iconCls="icon-ok" onClick="doEnable()">设为有效</a>
   		<a class="easyui-linkbutton" iconCls="icon-cancel" onClick="doDisable()">设为无效</a>
+		<a class="easyui-linkbutton" iconCls="icon-edit" onClick="editBSCode()">自定义编号</a>
   		<a class="easyui-linkbutton" iconCls="icon-reload" onClick="location.reload()">刷新</a>
   	</div>
-  	
+
+	<!--编辑福位编号窗口 -->
+	<div id="editCodeDialog">
+		<form id="editCodeForm" method="post" action="${pageContext.request.contextPath}/api/blessSeatPlan_editCode.action">
+			<input name="bsId" type="hidden">
+			<table class="form-container" align="center">
+				<tr>
+					<td class="title"><label>自定义编号：</label></td>
+					<td>
+						<p>
+							<input name="bsCode" class="easyui-validatebox" data-options="required:true">
+						</p>
+					</td>
+				</tr>
+			</table>
+		</form>
+	</div>
+
+	<!--添加福位窗口-->
   	<div id="addDialog" class="easyui-dialog" title="添加福位" iconCls="icon-add" buttons="#addDialogToolbar"
   		closed=true modal=true style="width:400px;height: 200px">
   		<form id="addForm" method="post" action="${pageContext.request.contextPath }/api/blessSeatPlan_add.action">

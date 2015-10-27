@@ -37,4 +37,11 @@ public interface ShelfService extends SupportService<Shelf>{
 	 * @param areaColumn
 	 */
 	Shelf addByArea(Area area, int areaRow, int areaColumn);
+
+	/**
+	 * 更新福位架的编号
+	 * @param shelfId	福位架ID
+	 * @param shelfCode		需要更改的编号架编号
+	 */
+	void updateShelfCode(String shelfId,String shelfCode);
 }

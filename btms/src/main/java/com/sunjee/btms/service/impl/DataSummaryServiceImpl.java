@@ -94,6 +94,7 @@ public class DataSummaryServiceImpl implements DataSummaryService {
 	@Override
 	public List<DataSummary> getAllByParams(Pager page,
 			Map<String, Object> whereParams, Map<String, SortType> sortParams) {
+		addSumOfDayAlways(new Date(), true);
 		return this.dataSummaryDao.getEntitys(page, whereParams, sortParams);
 	}
 

@@ -25,6 +25,8 @@ public class BlessSeatPlanAction extends BaseAction<BlessSeat> implements
 	private Shelf shelf;
 	private List<BlessSeat> blessSeatList;
 	private String bsIds[];
+	private String bsId;
+	private String bsCode;
 	
 	public BlessSeatService getBlessSeatService() {
 		return blessSeatService;
@@ -59,13 +61,27 @@ public class BlessSeatPlanAction extends BaseAction<BlessSeat> implements
 		this.bsIds = bsIds;
 	}
 
+	public String getBsId() {
+		return bsId;
+	}
+
+	public void setBsId(String bsId) {
+		this.bsId = bsId;
+	}
+
+	public String getBsCode() {
+		return bsCode;
+	}
+
+	public void setBsCode(String bsCode) {
+		this.bsCode = bsCode;
+	}
+
 	@Override
 	public String execute() throws Exception {
 		Map<String, Object> whereParams = getWhereParams();
 		Map<String, SortType> sortParams = getSortParams("shelf.shelfId","shelfColumn");
 		whereParams.put("shelf.shelfId", shelf.getShelfId());
-		/*sortParams.put("shelfRow", SortType.asc);
-		sortParams.put("shelfColumn", SortType.asc);*/
 		this.blessSeatList = this.blessSeatService.getAllByParams(null, whereParams, sortParams);
 		if(blessSeatList == null || blessSeatList.size() < 1){
 			this.shelf = null;
@@ -100,6 +116,16 @@ public class BlessSeatPlanAction extends BaseAction<BlessSeat> implements
 	
 	public String add(){
 		this.blessSeatService.addByShelf(shelf,shelf.getShelfRow(),shelf.getShelfColumn());
+		return success();
+	}
+
+	/**
+	 * 自定义福位编号
+	 * @return
+	 * @throws Exception
+	 */
+	public String editCode() throws Exception{
+		this.blessSeatService.updateBlessSeatCode(bsId,bsCode);
 		return success();
 	}
 	

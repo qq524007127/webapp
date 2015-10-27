@@ -11,23 +11,28 @@
         var searchBox = $('#grid_searchbox');
 
         $('#downLoadBtn').click(function () {
-            url = win.app.baseUrl + '/download/summary_summaryFile.action?';
-            var start = startDateCtr.datebox('getValue');
-            var end = endDateCtr.datebox('getValue');
-            url += 'startDate=' + (start ? start : '');
-            url += '&endDate=' + (end ? end : '');
+            var url = win.app.baseUrl + getUrl();
             win.open(url);
         });
 
         $('#printBtn').click(function () {
-            url = '/download/summary_summaryFile.action?';
-            var start = startDateCtr.datebox('getValue');
-            var end = endDateCtr.datebox('getValue');
-            url += 'startDate=' + (start ? start : '');
-            url += '&endDate=' + (end ? end : '');
-            url = window.app.host + url;
+            var url = window.app.host + url;
             $.openExcelPreview(url, {});
         });
+
+        function getUrl(){
+            var url = '/download/salesSummary.action?';
+            var start = startDateCtr.datebox('getValue');
+            var end = endDateCtr.datebox('getValue');
+            var searchValue = searchBox.searchbox('getValue');
+            url += 'startDate=' + (start ? start : '');
+            url += '&endDate=' + (end ? end : '');
+            if(searchValue){
+                url += '&searchName=' + searchBox.searchbox('getName');
+                url += '&searchValue=' + searchValue;
+            }
+            return url;
+        }
 
         $('#grid_searchbox').searchbox({
             searcher: function (value, name) {

@@ -8,9 +8,7 @@ import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.List;
+import java.util.*;
 
 import javax.servlet.ServletContext;
 
@@ -28,6 +26,7 @@ public class ExcelUtil extends BaseBean {
 	private static final long serialVersionUID = 513138871084698662L;
 
 	private String dateFormat = null;
+	private Map<String,OnSetCellValueCallBack> setCellValueParams = new HashMap<>();
 
 	/**
 	 * 不格式化时间
@@ -42,6 +41,10 @@ public class ExcelUtil extends BaseBean {
 	 */
 	public ExcelUtil(String dateFormat) {
 		this.dateFormat = dateFormat;
+	}
+
+	public void addSetCellValueCallback(String callbackName,OnSetCellValueCallBack callBack){
+		this.setCellValueParams.put(callbackName,callBack);
 	}
 
 	/**
@@ -173,6 +176,10 @@ public class ExcelUtil extends BaseBean {
 		Field field = clzz.getDeclaredField(fieldName);
 		Method getter = getFieldGetter(field, clzz);
 		Object value = getter.invoke(data, null);
+		if(this.setCellValueParams.containsKey(fieldName)){
+			this.setCellValueParams.get(fieldName).doSetCellValue(cell,value);
+			return;
+		}
 		if (value instanceof Integer) {
 			cell.setCellValue((Integer) value);
 		} else if (value instanceof Float) {
@@ -257,5 +264,9 @@ public class ExcelUtil extends BaseBean {
 
 	private String getContextRealPath(ServletContext context, String path) {
 		return context.getRealPath(path);
+	}
+
+	public interface OnSetCellValueCallBack{
+		void doSetCellValue(Cell cell,Object obj);
 	}
 }

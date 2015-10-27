@@ -17,97 +17,125 @@ import com.sunjee.btms.service.ShelfService;
 @Controller("shelfPlanAction")
 @Scope("prototype")
 public class ShelfPlanAction extends BaseAction<Shelf> implements
-		ModelDriven<Area> {
+        ModelDriven<Area> {
 
-	private static final long serialVersionUID = -5457531069935958205L;
+    private static final long serialVersionUID = -5457531069935958205L;
 
-	private ShelfService shelfService;
+    private ShelfService shelfService;
 
-	private Area area;
-	private List<Shelf> shelfList;
-	private String shelfIds[];
+    private Area area;
+    private List<Shelf> shelfList;
+    private String shelfIds[];
+    private String shelfId;
+    private String shelfCode;
 
-	public ShelfService getShelfService() {
-		return shelfService;
-	}
+    public ShelfService getShelfService() {
+        return shelfService;
+    }
 
-	@Resource(name = "shelfService")
-	public void setShelfService(ShelfService shelfService) {
-		this.shelfService = shelfService;
-	}
+    @Resource(name = "shelfService")
+    public void setShelfService(ShelfService shelfService) {
+        this.shelfService = shelfService;
+    }
 
-	public Area getArea() {
-		return area;
-	}
+    public Area getArea() {
+        return area;
+    }
 
-	public void setArea(Area area) {
-		this.area = area;
-	}
+    public void setArea(Area area) {
+        this.area = area;
+    }
 
-	public List<Shelf> getShelfList() {
-		return shelfList;
-	}
+    public List<Shelf> getShelfList() {
+        return shelfList;
+    }
 
-	public void setShelfList(List<Shelf> shelfList) {
-		this.shelfList = shelfList;
-	}
+    public void setShelfList(List<Shelf> shelfList) {
+        this.shelfList = shelfList;
+    }
 
-	public String[] getShelfIds() {
-		return shelfIds;
-	}
+    public String[] getShelfIds() {
+        return shelfIds;
+    }
 
-	public void setShelfIds(String[] shelfIds) {
-		this.shelfIds = shelfIds;
-	}
+    public void setShelfIds(String[] shelfIds) {
+        this.shelfIds = shelfIds;
+    }
 
-	@Override
-	public String execute() throws Exception {
-		shelfList();
-		return SUCCESS;
-	}
+    public String getShelfId() {
+        return shelfId;
+    }
 
-	public String shelfList() {
-		Map<String, Object> whereParams = getWhereParams();
-		Map<String, SortType> sortParams = getSortParams("postionRow","postionColumn");
-		whereParams.put("shelfArea.areaId", area.getAreaId());
-		this.shelfList = this.shelfService.getAllByParams(null, whereParams, sortParams);
-		if(shelfList == null || shelfList.size() < 1){
-			this.area = null;
-		}
-		else{
-			this.area = this.shelfList.get(0).getShelfArea();
-		}
-		return success();
-	}
-	
-	/**
-	 * 禁用福位架，福位架禁用后对应次福位架的福位也将被禁用
-	 * @return
-	 */
-	public String disable(){
-		if(shelfIds != null){
-			this.shelfService.updateShelfPermit(shelfIds, false);
-		}
-		return success();
-	}
-	
-	public String enable(){
-		if(shelfIds != null){
-			this.shelfService.updateShelfPermit(shelfIds, true);
-		}
-		return success();
-	}
-	
-	public String add(){
-		this.shelfService.addByArea(area,area.getAreaRow(),area.getAreaColumn());
-		return success();
-	}
+    public void setShelfId(String shelfId) {
+        this.shelfId = shelfId;
+    }
 
-	@Override
-	public Area getModel() {
-		if (this.area == null) {
-			this.area = new Area();
-		}
-		return this.area;
-	}
+    public String getShelfCode() {
+        return shelfCode;
+    }
+
+    public void setShelfCode(String shelfCode) {
+        this.shelfCode = shelfCode;
+    }
+
+    @Override
+    public String execute() throws Exception {
+        shelfList();
+        return SUCCESS;
+    }
+
+    public String shelfList() throws Exception {
+        Map<String, Object> whereParams = getWhereParams();
+        Map<String, SortType> sortParams = getSortParams("postionRow", "postionColumn");
+        whereParams.put("shelfArea.areaId", area.getAreaId());
+        this.shelfList = this.shelfService.getAllByParams(null, whereParams, sortParams);
+        if (shelfList == null || shelfList.size() < 1) {
+            this.area = null;
+        } else {
+            this.area = this.shelfList.get(0).getShelfArea();
+        }
+        return success();
+    }
+
+    /**
+     * 禁用福位架，福位架禁用后对应次福位架的福位也将被禁用
+     *
+     * @return
+     */
+    public String disable() throws Exception {
+        if (shelfIds != null) {
+            this.shelfService.updateShelfPermit(shelfIds, false);
+        }
+        return success();
+    }
+
+    public String enable() throws Exception {
+        if (shelfIds != null) {
+            this.shelfService.updateShelfPermit(shelfIds, true);
+        }
+        return success();
+    }
+
+    public String add() throws Exception {
+        this.shelfService.addByArea(area, area.getAreaRow(), area.getAreaColumn());
+        return success();
+    }
+
+    /**
+     * 自定义福位架编号
+     *
+     * @return
+     */
+    public String editCode() throws Exception {
+        this.shelfService.updateShelfCode(shelfId, shelfCode);
+        return success();
+    }
+
+    @Override
+    public Area getModel() {
+        if (this.area == null) {
+            this.area = new Area();
+        }
+        return this.area;
+    }
 }

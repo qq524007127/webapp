@@ -91,4 +91,11 @@ public interface BlessSeatService extends SupportService<BlessSeat> {
 	BlessSeat addByShelf(Shelf shelf, int shelfRow, int shelfColumn);
 	
 	BlessSeat getBlessSeatByBSCode(String bsCode);
+
+	/**
+	 * 修改福位编号
+	 * @param bsId
+	 * @param bsCode
+	 */
+	void updateBlessSeatCode(String bsId,String bsCode);
 }
