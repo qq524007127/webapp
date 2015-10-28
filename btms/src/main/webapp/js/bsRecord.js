@@ -286,11 +286,16 @@
 	 * 
 	 */
 	function printByMemberId(memberId,bsRecId){
-		alert(memberId + ' || ' + bsRecId);
+		var url = getUrl(bsRecId) + '&memberId=' + memberId;
 	}
 	
 	function printByEnterId(enterId,bsRecId){
-		alert(enterId + ' || ' + bsRecId);
+		var url = getUrl(bsRecId) + '&enterpriseId=' + enterId;
+	}
+
+	function getUrl(recId){
+		var url = win.app.baseUrl + '/download/bsRecord_getBSRecordFile.action?bsRecId' + recId;
+		return url;
 	}
 	
 	win.bsRecord = bsRecord;
