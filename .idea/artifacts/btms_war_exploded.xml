@@ -1,5 +1,5 @@
 <component name="ArtifactManager">
-  <artifact type="exploded-war" name="btms:war exploded">
+  <artifact type="exploded-war" build-on-make="true" name="btms:war exploded">
     <output-path>$PROJECT_DIR$/btms/target/btms</output-path>
     <root id="root">
       <element id="directory" name="WEB-INF">
