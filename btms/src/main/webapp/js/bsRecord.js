@@ -198,14 +198,11 @@
 					}
 					
 					var _bs = rows[0];
-					
-					if(bsRecord.memberId){
-						printByMemberId(bsRecord.memberId,_bs.bsRecId);
+					if(bsRecord.enterId){
+						$.messager.alert('','不支持企业打印！');
+						return;
 					}
-					else if(bsRecord.enterId){
-						printByEnterId(bsRecord.enterId,_bs.bsRecId);
-					}
-					
+					printOutBSRecord(_bs.bsRecId);
 				}
 			},'-',{
 				text : '退捐',
@@ -285,17 +282,27 @@
 	 * @param memberId 会员ID;bsRecId 捐赠记录ID
 	 * 
 	 */
-	function printByMemberId(memberId,bsRecId){
-		var url = getUrl(bsRecId) + '&memberId=' + memberId;
-	}
-	
-	function printByEnterId(enterId,bsRecId){
-		var url = getUrl(bsRecId) + '&enterpriseId=' + enterId;
+	function printOutBSRecord(bsRecId){
+		$.ajax({
+			url:'api/getBSRecord.action',
+			type:'POST',
+			data:{
+				bsRecId:bsRecId
+			},
+			success:function(data){
+				data = $.parseJSON(data);
+				initWDocContext(data);
+			}
+		});
 	}
 
-	function getUrl(recId){
-		var url = win.app.baseUrl + '/download/bsRecord_getBSRecordFile.action?bsRecId' + recId;
-		return url;
+	/**
+	 * 下载word模板并初始化内容
+	 * @param data
+	 */
+	function initWDocContext(data){
+		var url = win.app.host + '/resource/template/bs_template.doc';
+		viewToWord(data,url);
 	}
 	
 	win.bsRecord = bsRecord;

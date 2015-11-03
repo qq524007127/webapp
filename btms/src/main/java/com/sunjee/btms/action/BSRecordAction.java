@@ -154,40 +154,17 @@ public class BSRecordAction extends BaseAction<BSRecord> implements
      * @return
      * @throws Exception
      */
-    public InputStream getBSRecordFile() throws Exception {
-        Map<String, Object> whereParams = getWhereParams();
-        /**
-         * 如果会员ID不为空则查询会员捐赠
-         */
-        if (!StringUtils.isEmpty(memberId)) {
-            whereParams.put("mem.memberId", memberId);
-        }
-        /**
-         * 如果企业ID不为空则查询企业捐赠
-         */
-        else if (!StringUtils.isEmpty(enterpriseId)) {
-            whereParams.put("enterprise.enterId", enterpriseId);
-        }
-
-        Map<String, SortType> sortParams = getSortParams("payed");
-        List<BSRecord> bsRecs = this.bsRecordService.getAllByParams(null,whereParams,null);
-        if(bsRecs.size() < 1){
-            throw new AppRuntimeException("打印记录不能为空");
-        }
-        BSRecord bsRec = bsRecs.get(0);
-        if(bsRec.getMem() != null){
-
-        }
-        else if(bsRec.getEnterprise() != null){
-
-        }
-
-        return null;
+    public String getBSRecord() throws Exception {
+        this.bsRecord = this.bsRecordService.getById(this.bsRecord.getBsRecId());
+        return success();
     }
 
     @Override
     public BSRecord getModel() {
-        return null;
+        if(this.bsRecord == null){
+            this.bsRecord = new BSRecord();
+        }
+        return this.bsRecord;
     }
 
 }

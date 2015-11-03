@@ -50,11 +50,6 @@ public class DataSummaryComponent extends BaseBean {
 	@PostConstruct
 	public void doTimedTask() {
 		try {
-			System.out.println("正在汇总数据...");
-			/*dataSummaryService.addSummaryOnBefore();
-			preSellSummaryService.initSumOfBefore();
-			salesSummaryService.initSummaryOnBefore(new Date());*/
-			System.out.println("数据汇总完成...");
 			new Thread(new Runnable(){
 				@Override
 				public void run() {

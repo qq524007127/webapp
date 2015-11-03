@@ -51,6 +51,14 @@
             </result>
         </action>
 
+        <!-- 获取捐赠福位记录，2015-11-03新增 -->
+        <action name="getBSRecord" class="bsRecordAction" method="getBSRecord">
+            <result type="json">
+                <param name="root">bsRecord</param>
+                <param name="contentType">text/html</param>
+            </result>
+        </action>
+
         <action name="constant_*" class="constantAction" method="{1}">
             <result type="json">
                 <param name="root">{1}</param>

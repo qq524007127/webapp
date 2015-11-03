@@ -22,6 +22,7 @@
     <meta http-equiv="description" content="This is my page">
 
     <script type="text/javascript" src="${pageContext.request.contextPath }/js/app.js" charset="UTF-8"></script>
+    <script type="text/javascript" src="${pageContext.request.contextPath }/js/plugs/wordPrinter.js" charset="UTF-8"></script>
     <script type="text/javascript">
         app.init('${pageContext.request.contextPath}');
         app.addScript('bsRecord.js');
