@@ -1,4 +1,4 @@
-1¡¢ÏîÄ¿ÓÃmavenÖØĞÂ¹¹½¨£»
-2¡¢¿ª·¢¹¤¾ß´ÓMyEclipse×ªÒÆµ½IntelliJ idea;
-3¡¢Êı¾İ¿âÁ¬½Ó³Ø±ä»»Îª°¢Àï°Í°ÍDruid£»
-4¡¢Êı¾İ¿âÇı¶¯´Ósql server driver±ä»»Îªjsdl¡£
+1ã€é¡¹ç›®ç”¨mavené‡æ–°æ„å»ºï¼›
+2ã€å¼€å‘å·¥å…·ä»MyEclipseè½¬ç§»åˆ°IntelliJ idea;
+3ã€æ•°æ®åº“è¿æ¥æ± å˜æ¢ä¸ºé˜¿é‡Œå·´å·´Druidï¼›
+4ã€æ•°æ®åº“é©±åŠ¨ä»sql server driverå˜æ¢ä¸ºjsdlã€‚
