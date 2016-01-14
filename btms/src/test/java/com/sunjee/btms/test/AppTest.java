@@ -1,7 +1,5 @@
 package com.sunjee.btms.test;
 
-import freemarker.cache.TemplateLoader;
-import freemarker.core.ParseException;
 import freemarker.template.*;
 import org.junit.Test;
 
@@ -25,7 +23,7 @@ public class AppTest {
         Template template = cfg.getTemplate("test.xml");
         Writer writer = new FileWriter(new File("d:/test.xls"));
         Map<String,Object> data = new HashMap<>();
-        data.put("area","AÇø");
+        data.put("area","AåŒº");
         data.put("code","A001");
         data.put("row",2);
         template.process(data,writer);

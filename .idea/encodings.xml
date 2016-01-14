@@ -2,5 +2,7 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$PROJECT_DIR$/btms/src/main/webapp/js/plugs/wordPrinter.js" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/btms/src/test/java/com/sunjee/btms/test/AppTest.java" charset="UTF-8" />
+    <file url="PROJECT" charset="UTF-8" />
   </component>
 </project>
